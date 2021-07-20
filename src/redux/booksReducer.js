@@ -1,4 +1,4 @@
-import {GET_BOOKS, FETCH_BOOKS, QUANTITY_BOOKS, LEARN_MORE, LEARN_MORE_IS, HANDLE_BOOK} from "./types"
+import {GET_BOOKS, FETCH_BOOKS, QUANTITY_BOOKS, LEARN_MORE, LEARN_MORE_IS, HANDLE_BOOK, SHOW_LOADER, HIDE_LOADER} from "./types"
 const initialState = {
     books: [],
     fetchedBooks: [],
@@ -27,6 +27,12 @@ export const booksReducer = (state = initialState, action) =>{
         }
         case HANDLE_BOOK : {
             return {...state, handleBook: action.payload}
+        }
+        case SHOW_LOADER : {
+            return {...state, loader: action.payload}
+        }
+        case HIDE_LOADER : {
+            return {...state, loader: action.payload}
         }
     }
     return state

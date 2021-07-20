@@ -8,7 +8,7 @@ import BookPage from './components/BookPage/BookPage'
 import {Route} from "react-router-dom";
 
 let itemLearn = 0
-function App({totalItems, learnMore, title, fetchedBooks, learnMoreIs, handleBook, history}) {
+function App({totalItems, learnMore, title, fetchedBooks, learnMoreIs, handleBook, loader, history}) {
   function learnMoreAdd() {
     itemLearn += 1
     learnMore(itemLearn, title)
@@ -21,6 +21,10 @@ function App({totalItems, learnMore, title, fetchedBooks, learnMoreIs, handleBoo
         </div>
       </div>
         <Route exact path='/'>{totalItems<1 ? '' : 'Найдено: ' + totalItems}</Route>
+        {loader === true ? <div className = "loader">
+          <div className="lds-ripple"><div></div><div></div></div>
+        </div> 
+        : ''}
         <Route  exact path='/'><Books /></Route>
         <Route exact path='/'>
           {!learnMoreIs || fetchedBooks.length<30 
@@ -47,6 +51,7 @@ const mapStateToProps = state => {
       fetchedBooks: state.books.fetchedBooks,
       learnMoreIs: state.books.learnMoreIs,
       handleBook: state.books.handleBook,
+      loader: state.books.loader,
   }
 }
 

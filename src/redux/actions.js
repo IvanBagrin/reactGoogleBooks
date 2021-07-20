@@ -1,4 +1,4 @@
-import { GET_BOOKS, FETCH_BOOKS, QUANTITY_BOOKS, LEARN_MORE, LEARN_MORE_IS, HANDLE_BOOK} from "./types";
+import { GET_BOOKS, FETCH_BOOKS, QUANTITY_BOOKS, LEARN_MORE, LEARN_MORE_IS, HANDLE_BOOK, HIDE_LOADER, SHOW_LOADER} from "./types";
 
 export function getBooks(book) {
     return {
@@ -7,13 +7,16 @@ export function getBooks(book) {
     }
 }
 export function fetchBooks(title) {
+    
     const url = 'https://www.googleapis.com/books/v1/volumes?q='+title+':keyes&key=AIzaSyAQ0rDaUXa-QIl9ufw0C5aXTtukkO5aRpE'+'&startIndex=0&maxResults=30'
     return async dispatch => {
+        dispatch({type: SHOW_LOADER, payload: true})
         const response = await fetch(url)
         const json = await response.json()
         if (json.totalItems<1) {
             dispatch({type: FETCH_BOOKS, payload: []})
             dispatch({type: QUANTITY_BOOKS, payload: 0})
+            dispatch({type: HIDE_LOADER, payload: false})
             return
         }
         const items = json.totalItems;
@@ -21,6 +24,7 @@ export function fetchBooks(title) {
         dispatch({type: FETCH_BOOKS, payload: clean})
         dispatch({type: QUANTITY_BOOKS, payload: items})
         dispatch({type: LEARN_MORE_IS, payload: true})
+        dispatch({type: HIDE_LOADER, payload: false})
 
         function cleanData(data) {
             const cleanData = data.map(book => {
@@ -46,7 +50,6 @@ export function learnMore(event, title) {
     const url = 'https://www.googleapis.com/books/v1/volumes?q='+title+':keyes&key=AIzaSyAQ0rDaUXa-QIl9ufw0C5aXTtukkO5aRpE'+'&startIndex='+startIndex+'&maxResults=30'
     
     return async dispatch => {
-        
         const response = await fetch(url)
         const json = await response.json()
         if (json.totalItems<0 || !json.items) {
