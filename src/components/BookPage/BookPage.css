@@ -1,0 +1,16 @@
+.bookPage {
+    margin-top: 20px;
+}
+
+.bookPage__block {
+    margin-top: 20px;
+}
+.bookPage__img {
+    text-align: center;
+    
+}
+
+.bookPage__img  img {
+    width: 70%;
+
+}

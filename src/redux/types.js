@@ -1,0 +1,8 @@
+export const GET_BOOKS = "GET/GET_BOOKS"
+export const FETCH_BOOKS = "GET/FETCH_BOOKS"
+export const SHOW_LOADER = "APP/SHOW_LOADER"
+export const HIDE_LOADER = "APP/SHOW_LOADER"
+export const QUANTITY_BOOKS = "GET/QUANTITY_BOOKS"
+export const LEARN_MORE = "GET/LEARN_MORE"
+export const LEARN_MORE_IS = "APP/LEARN_MORE_IS"
+export const HANDLE_BOOK = "APP/HANDLE_BOOK"

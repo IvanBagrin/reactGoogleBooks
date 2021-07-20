@@ -1,25 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import PostForm from './components/PostForm/PostForm'
+import Books from './components/Books/Books'
+import './App.css'
+import { connect } from 'react-redux'
+import {learnMore} from './redux/actions'
+import BookPage from './components/BookPage/BookPage'
+import {Route} from "react-router-dom";
 
-function App() {
+let itemLearn = 0
+function App({totalItems, learnMore, title, fetchedBooks, learnMoreIs, handleBook, history}) {
+  function learnMoreAdd() {
+    itemLearn += 1
+    learnMore(itemLearn, title)
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <div className = "row search">
+        <div className = "col">
+          <Route history={history} path='/' component={PostForm} />
+        </div>
+      </div>
+        <Route exact path='/'>{totalItems<1 ? '' : 'Найдено: ' + totalItems}</Route>
+        <Route  exact path='/'><Books /></Route>
+        <Route exact path='/'>
+          {!learnMoreIs || fetchedBooks.length<30 
+            ? '' 
+            : <button 
+                type="button" 
+                className="btn btn-primary btn__learnmore" 
+                onClick = {() => learnMoreAdd()}
+                >Learn More
+                </button>}
+        </Route>
+        <Route path={`/book/${handleBook.id}`}><BookPage /></Route>
     </div>
   );
 }
 
-export default App;
+const mapDispatchToProps = {
+        learnMore
+}
+
+const mapStateToProps = state => {
+  return {
+      totalItems: state.books.quantityBooks,
+      fetchedBooks: state.books.fetchedBooks,
+      learnMoreIs: state.books.learnMoreIs,
+      handleBook: state.books.handleBook,
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

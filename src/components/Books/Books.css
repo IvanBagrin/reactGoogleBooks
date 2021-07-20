@@ -1,0 +1,10 @@
+.booksBody {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.booksBody a {
+    display: block;
+    align-items: center;
+}
